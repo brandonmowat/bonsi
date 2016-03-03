@@ -1,12 +1,25 @@
+@font-face {
+  font-family: 'sanfran';
+  font-style: regular;
+  font-weight: 300;
+  src: local('truetype'), url('./fonts/System San Francisco Display Regular.ttf') format("truetype");
+}
+@font-face {
+  font-family: 'sanfran';
+  font-style: thin;
+  font-weight: 100;
+  src: local('truetype'), url('./fonts/System San Francisco Display Ultralight.ttf') format("truetype");
+}
+
 html {
 	margin: 0;
-	font-family: "Roboto";
+	font-family: "sanfran";
 	background: #000;
 	color: #FFF;
 }
 h1 {
 	font-size: 100px;
-	font-weight: 300;
+	font-weight: 100;
 	margin: 0;
 }
 h2 {

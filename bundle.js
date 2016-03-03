@@ -114,6 +114,27 @@ var CurrentWeather = React.createClass({
 var DateAndTime = React.createClass({
   displayName: 'DateAndTime',
 
+  refreshTime: function () {
+    this.setState({
+      date: {
+        time: moment().format('h:mm'),
+        day: moment().format('dddd'),
+        month: moment().format('MMMM Do')
+      }
+    });
+  },
+  getInitialState: function () {
+    return {
+      date: {
+        time: moment().format('h:mm'),
+        day: moment().format('dddd'),
+        month: moment().format('MMMM Do')
+      }
+    };
+  },
+  componentDidMount: function () {
+    setInterval(this.refreshTime, 9000);
+  },
   render: function () {
     return React.createElement(
       'div',
@@ -121,17 +142,17 @@ var DateAndTime = React.createClass({
       React.createElement(
         'h1',
         null,
-        moment().format('h:mm')
+        this.state.date.time
       ),
       React.createElement(
         'h2',
         null,
-        moment().format('dddd')
+        this.state.date.day
       ),
       React.createElement(
         'h2',
         null,
-        moment().format('MMMM Do')
+        this.state.date.month
       )
     );
   }
