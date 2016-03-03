@@ -1,0 +1,66 @@
+@font-face {
+  font-family: 'sanfran';
+  font-style: regular;
+  font-weight: 300;
+  src: local('truetype'), url('./fonts/System San Francisco Display Regular.ttf') format("truetype");
+}
+@font-face {
+  font-family: 'sanfran';
+  font-style: thin;
+  font-weight: 100;
+  src: local('truetype'), url('./fonts/System San Francisco Display Ultralight.ttf') format("truetype");
+}
+
+html {
+	margin: 0;
+	font-family: "sanfran";
+	background: #000;
+	color: #FFF;
+}
+h1 {
+	font-size: 100px;
+	font-weight: 100;
+	margin: 0;
+	margin-bottom: 15px;
+}
+h2 {
+	font-weight: 100;
+	line-height: 1.4;
+	margin: 0;
+	letter-spacing: 0.8px;
+}
+h3 {
+	font-size: 20px;
+	font-weight: 100;
+}
+.wrapper {
+	overflow: auto;
+	padding: 50px 70px;
+}
+#current {
+	overflow: auto;
+	float: left;
+	width: 50%;
+	right: 0;
+	top: 0;
+}
+#current h1 {
+	text-align: left;
+}
+#current h2 {
+	width: 300px;
+}
+#current h3 i {
+	margin-right: 5px;
+}
+#date {
+	overflow: auto;
+	float: right;
+	width: 50%;
+	right: 0;
+	top: 0;
+}
+#date h1,
+#date h2 {
+	text-align: right;
+}
