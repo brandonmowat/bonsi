@@ -2,12 +2,13 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var moment = require('moment');
 var $ = require('jquery');
 
 // Forcast.io API Key
 var apiKey = '151d781924566285d4b596a01f8c0ca0';
-var lat = "43.862027";
-var long = "-78.942775";
+var lat;
+var long;
 var temp = {"currently": {"temperature": "--"}};
 var url = "https://api.forecast.io/forecast/"+apiKey+"/"+lat+","+long+"/?units=si";
 
@@ -21,9 +22,19 @@ function updateLongitude(coord) {
 function updateURL() {
   url = "https://api.forecast.io/forecast/"+apiKey+"/"+lat+","+long+"/?units=si";
 }
-
+function setLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+          updateLatitude(position.coords.latitude);
+          updateLongitude(position.coords.longitude);
+          updateURL();
+          callback();
+        });
+    } else { 
+    }
+}
 // Update location
-// - Will update location if location has changed (thresh -> 0.1 degrees)
+// - update location if location has changed (threshold -> 0.1 degrees)
 function updateLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
@@ -59,7 +70,7 @@ var CurrentTemp = React.createClass({
       console.log("Got an update on the temperature!");
       console.log("data: ",this.props.data);
       return (
-          <h1>{this.props.data.currently.temperature}</h1>
+          <h1 class="">{Math.round(this.props.data.currently.temperature)}</h1>
       );
     }
   }
@@ -79,12 +90,12 @@ var CurrentWeather = React.createClass({
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(url, status, err.toString());
       }.bind(this)
     });
   },
   componentDidMount: function() {
-    this.getCurrentTemp();
+    setLocation(this.getCurrentTemp);
     setInterval(this.getCurrentTemp, 10000); // get tempupdate every 10s
   },
   render: function() {
@@ -94,10 +105,25 @@ var CurrentWeather = React.createClass({
   }
 });
 
+// Date and Time
+var DateAndTime = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <h1>{moment().format('h:mm')}</h1>
+        <h2>{moment().format('dddd')}</h2>
+        <h2>{moment().format('MMMM Do')}</h2>
+      </div>
+    );
+  }
+});
 
 // Main
-updateLocation();
 ReactDOM.render(
   <CurrentWeather/>, 
   document.getElementById("current")
+);
+ReactDOM.render(
+  <DateAndTime />,
+  document.getElementById("date")
 );

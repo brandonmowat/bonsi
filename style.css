@@ -1,6 +1,40 @@
 html {
+	margin: 0;
 	font-family: "Roboto";
+	background: #000;
+	color: #FFF;
 }
 h1 {
+	font-size: 100px;
 	font-weight: 300;
+	margin: 0;
+}
+h2 {
+	font-weight: 300;
+	line-height: 0.5;
+}
+.wrapper {
+	overflow: auto;
+	padding: 50px 70px;
+}
+#current {
+	overflow: auto;
+	float: left;
+	width: 50%;
+	right: 0;
+	top: 0;
+}
+#date {
+	overflow: auto;
+	float: right;
+	width: 50%;
+	right: 0;
+	top: 0;
+}
+#current h1 {
+	float: left;
+}
+#date h1,
+#date h2 {
+	text-align: right;
 }
