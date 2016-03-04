@@ -108,7 +108,7 @@ var CurrentWeather = React.createClass({
     updateLocation();
     $.ajax({
       url: url,
-      dataType: 'json',
+      dataType: 'jsonp',
       crossDomain: true,
       cache: false,
       success: function (data) {
