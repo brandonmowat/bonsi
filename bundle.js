@@ -109,6 +109,7 @@ var CurrentWeather = React.createClass({
     $.ajax({
       url: url,
       dataType: 'json',
+      crossDomain: true,
       cache: false,
       success: function (data) {
         this.setState({ data: data });
@@ -120,7 +121,7 @@ var CurrentWeather = React.createClass({
   },
   componentDidMount: function () {
     setLocation(this.getCurrentTemp);
-    setInterval(this.getCurrentTemp, 10000); // get tempupdate every 10s
+    setInterval(this.getCurrentTemp, 200000); // get tempupdate every 10s
   },
   render: function () {
     return React.createElement(CurrentTemp, { data: this.state.data });
