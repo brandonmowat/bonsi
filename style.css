@@ -21,10 +21,17 @@ h1 {
 	font-size: 100px;
 	font-weight: 100;
 	margin: 0;
+	margin-bottom: 15px;
 }
 h2 {
-	font-weight: 300;
-	line-height: 0.5;
+	font-weight: 100;
+	line-height: 1.4;
+	margin: 0;
+	letter-spacing: 0.8px;
+}
+h3 {
+	font-size: 20px;
+	font-weight: 100;
 }
 .wrapper {
 	overflow: auto;
@@ -37,15 +44,21 @@ h2 {
 	right: 0;
 	top: 0;
 }
+#current h1 {
+	text-align: left;
+}
+#current h2 {
+	width: 300px;
+}
+#current h3 i {
+	margin-right: 5px;
+}
 #date {
 	overflow: auto;
 	float: right;
 	width: 50%;
 	right: 0;
 	top: 0;
-}
-#current h1 {
-	float: left;
 }
 #date h1,
 #date h2 {

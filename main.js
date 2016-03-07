@@ -6,7 +6,7 @@ var moment = require('moment');
 var $ = require('jquery');
 
 // Forcast.io API Key
-var apiKey = '151d781924566285d4b596a01f8c0ca0';
+var apiKey = '2a3a882278ca2b64e57a7b4f031aa69d';
 var lat;
 var long;
 var temp = {"currently": {"temperature": "--"}};
@@ -70,7 +70,11 @@ var CurrentTemp = React.createClass({
       console.log("Got an update on the temperature!");
       console.log("data: ",this.props.data);
       return (
-          <h1 class="">{Math.round(this.props.data.currently.temperature)}</h1>
+        <div>
+          <h1 className="">{Math.round(this.props.data.currently.temperature)}</h1>
+          <h2>{this.props.data.hourly.summary}</h2>
+          <h3><i className="icon ion-umbrella"></i> {parseFloat(this.props.data.currently.precipProbability)*10}%</h3>
+        </div>
       );
     }
   }
@@ -84,7 +88,8 @@ var CurrentWeather = React.createClass({
     updateLocation();
     $.ajax({
       url: url,
-      dataType: 'json',
+      dataType: 'jsonp',
+      crossDomain: true,
       cache: false,
       success: function(data) {
         this.setState({data: data});
@@ -96,7 +101,7 @@ var CurrentWeather = React.createClass({
   },
   componentDidMount: function() {
     setLocation(this.getCurrentTemp);
-    setInterval(this.getCurrentTemp, 10000); // get tempupdate every 10s
+    setInterval(this.getCurrentTemp, 200000); // get tempupdate every 10s
   },
   render: function() {
     return (
@@ -112,7 +117,7 @@ var DateAndTime = React.createClass({
       date: {
         time: moment().format('h:mm'),
         day: moment().format('dddd'),
-        month: moment().format('MMMM Do')
+        month: moment().format('MMMM D')
       }
     });
   },
@@ -121,7 +126,7 @@ var DateAndTime = React.createClass({
       date: {
         time: moment().format('h:mm'),
         day: moment().format('dddd'),
-        month: moment().format('MMMM Do')
+        month: moment().format('MMMM D')
       }
     });
   },

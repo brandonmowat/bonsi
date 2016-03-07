@@ -1,0 +1,20 @@
+{
+  "name": "react-playground",
+  "version": "1.0.0",
+  "description": "a react playground",
+  "main": "main.js",
+  "dependencies": {
+    "moment": "^2.11.2",
+    "babel-preset-react": "^6.5.0",
+    "babelify": "^7.2.0",
+    "jquery": "^2.2.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brandon Mowat",
+  "license": "ISC"
+}
