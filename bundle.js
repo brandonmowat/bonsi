@@ -7,7 +7,7 @@ var moment = require('moment');
 var $ = require('jquery');
 
 // Forcast.io API Key
-var apiKey = '151d781924566285d4b596a01f8c0ca0';
+var apiKey = '2a3a882278ca2b64e57a7b4f031aa69d';
 var lat;
 var long;
 var temp = { "currently": { "temperature": "--" } };
