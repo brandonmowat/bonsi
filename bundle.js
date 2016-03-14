@@ -222,6 +222,7 @@ var News = React.createClass({
     // get a list of itemId's and add the top 5 to the data list
     $.ajax({
       url: "http://www.theverge.com/rss/frontpage",
+      origin: "theverge.com",
       dataType: 'xml',
       crossDomain: true,
       cache: false,
