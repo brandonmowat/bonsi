@@ -184,7 +184,12 @@ var News = React.createClass({
   getVergeNews: function() {
     // get a list of itemId's and add the top 5 to the data list
     $.ajax({
-      url: "http://www.theverge.com/rss/frontpage",
+      url: "http://www.theverge.com/rss/frontpage/",
+      headers: {
+        "Content-Type": "text/xml",
+        "Access-Control-Allow-Origin": true
+      },
+      method: "GET",
       dataType: 'xml',
       crossDomain: true,
       cache: false,
