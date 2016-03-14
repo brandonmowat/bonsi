@@ -12,6 +12,8 @@ var long;
 var temp = {"currently": {"temperature": "--"}};
 var url = "https://api.forecast.io/forecast/"+apiKey+"/"+lat+","+long+"/?units=si";
 
+// ProductHunt API Key
+var productHuntKey = "9bd70f56b8430f9cc7b757bb1ce29e3de13cef6ccece12477b0d91149c56cc5d";
 // variable Getters & Setters
 function updateLatitude(coord) {
   lat = coord;
@@ -55,6 +57,21 @@ function updateLocation() {
 
 // Current temperature
 var CurrentTemp = React.createClass({
+  getInitialState: function() {
+    return {data: {}};
+  },
+  getWeatherImage: function() {
+      if (this.props.data.currently.icon == "partly-cloudy-day") {
+        this.state.data.weatherImage = "./img/partly-cloudy.svg";
+      }
+      else if (this.props.data.currently.icon == "clear-day") {
+        this.state.data.weatherImage = "./img/sunny.svg";
+      }
+      else {
+        console.log(this.props.data.currently.icon);
+        this.state.data.weatherImage = "./img/cloudy.svg";
+      }
+  },
   componentDidMount: function() {
 
   },
@@ -67,13 +84,15 @@ var CurrentTemp = React.createClass({
     }
     // Weather has been received
     else {
+      this.getWeatherImage();
       console.log("Got an update on the temperature!");
       console.log("data: ",this.props.data);
+      console.log("image: ",this.state.data.weatherImage);
       return (
         <div>
-          <h1 className="">{Math.round(this.props.data.currently.temperature)}</h1>
+          <h1 className="">{Math.round(this.props.data.currently.temperature)} <img src={this.state.data.weatherImage}/></h1>
           <h2>{this.props.data.hourly.summary}</h2>
-          <h3><i className="icon ion-umbrella"></i> {parseFloat(this.props.data.currently.precipProbability)*10}%</h3>
+          <h3><i className="icon ion-umbrella"></i> {parseFloat(this.props.data.currently.precipProbability)*100}%</h3>
         </div>
       );
     }
@@ -101,7 +120,7 @@ var CurrentWeather = React.createClass({
   },
   componentDidMount: function() {
     setLocation(this.getCurrentTemp);
-    setInterval(this.getCurrentTemp, 200000); // get tempupdate every 10s
+    setInterval(this.getCurrentTemp, 50000); // get tempupdate every 50s
   },
   render: function() {
     return (
@@ -144,6 +163,71 @@ var DateAndTime = React.createClass({
   }
 });
 
+
+function getNews(callback) {
+
+}
+
+var Article = React.createClass({
+  render: function() {
+    return(
+      <div>
+        <i className="icon ion-clipboard"></i>
+        <a href={this.props.url}>{this.props.data}</a>
+      </div>
+    );
+  }
+});
+
+// Get News
+var News = React.createClass({
+  getVergeNews: function() {
+    // get a list of itemId's and add the top 5 to the data list
+    $.ajax({
+      url: "http://www.theverge.com/rss/frontpage",
+      dataType: 'xml',
+      crossDomain: true,
+      cache: false,
+      success: function(data) {
+        var articles = [];
+        //console.log($(data).find("entry").find("title"));
+        for (var i = 0; i <= 3; i++) {
+          articles.push({
+            title: $(data).find("entry")[i].getElementsByTagName("title")[0].firstChild.nodeValue,
+            url: $(data).find("entry")[i].getElementsByTagName("link")[0].getAttribute('href')
+          });
+        }
+        this.setState({data: articles});
+        console.log(this.state);
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return({data: []});
+  },
+  componentDidMount: function() {
+    this.getVergeNews();
+    setInterval(this.getVergeNews, 9000);
+  },
+  render: function() {
+    var articles = this.state.data.map(function (article) {
+      return(
+        <Article data={article.title} url={article.url} key={article.title} />
+      );
+    });
+    return(
+      <div>
+        <p>News</p>
+        {articles}
+        {console.log(this.state.data)}
+      </div>
+    );
+  }
+});
+
 // Main
 ReactDOM.render(
   <CurrentWeather/>, 
@@ -152,4 +236,8 @@ ReactDOM.render(
 ReactDOM.render(
   <DateAndTime />,
   document.getElementById("date")
+);
+ReactDOM.render(
+  <News/>,
+  document.getElementById("news")
 );

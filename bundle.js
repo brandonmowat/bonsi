@@ -13,6 +13,8 @@ var long;
 var temp = { "currently": { "temperature": "--" } };
 var url = "https://api.forecast.io/forecast/" + apiKey + "/" + lat + "," + long + "/?units=si";
 
+// ProductHunt API Key
+var productHuntKey = "9bd70f56b8430f9cc7b757bb1ce29e3de13cef6ccece12477b0d91149c56cc5d";
 // variable Getters & Setters
 function updateLatitude(coord) {
   lat = coord;
@@ -56,6 +58,19 @@ function updateLocation() {
 var CurrentTemp = React.createClass({
   displayName: 'CurrentTemp',
 
+  getInitialState: function () {
+    return { data: {} };
+  },
+  getWeatherImage: function () {
+    if (this.props.data.currently.icon == "partly-cloudy-day") {
+      this.state.data.weatherImage = "./img/partly-cloudy.svg";
+    } else if (this.props.data.currently.icon == "clear-day") {
+      this.state.data.weatherImage = "./img/sunny.svg";
+    } else {
+      console.log(this.props.data.currently.icon);
+      this.state.data.weatherImage = "./img/cloudy.svg";
+    }
+  },
   componentDidMount: function () {},
   render: function () {
     console.log("Rendering the current temperature.");
@@ -70,15 +85,19 @@ var CurrentTemp = React.createClass({
     }
     // Weather has been received
     else {
+        this.getWeatherImage();
         console.log("Got an update on the temperature!");
         console.log("data: ", this.props.data);
+        console.log("image: ", this.state.data.weatherImage);
         return React.createElement(
           'div',
           null,
           React.createElement(
             'h1',
             { className: '' },
-            Math.round(this.props.data.currently.temperature)
+            Math.round(this.props.data.currently.temperature),
+            ' ',
+            React.createElement('img', { src: this.state.data.weatherImage })
           ),
           React.createElement(
             'h2',
@@ -90,7 +109,7 @@ var CurrentTemp = React.createClass({
             null,
             React.createElement('i', { className: 'icon ion-umbrella' }),
             ' ',
-            parseFloat(this.props.data.currently.precipProbability) * 10,
+            parseFloat(this.props.data.currently.precipProbability) * 100,
             '%'
           )
         );
@@ -121,7 +140,7 @@ var CurrentWeather = React.createClass({
   },
   componentDidMount: function () {
     setLocation(this.getCurrentTemp);
-    setInterval(this.getCurrentTemp, 200000); // get tempupdate every 10s
+    setInterval(this.getCurrentTemp, 50000); // get tempupdate every 50s
   },
   render: function () {
     return React.createElement(CurrentTemp, { data: this.state.data });
@@ -176,9 +195,82 @@ var DateAndTime = React.createClass({
   }
 });
 
+function getNews(callback) {}
+
+var Article = React.createClass({
+  displayName: 'Article',
+
+  render: function () {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement('i', { className: 'icon ion-clipboard' }),
+      React.createElement(
+        'a',
+        { href: this.props.url },
+        this.props.data
+      )
+    );
+  }
+});
+
+// Get News
+var News = React.createClass({
+  displayName: 'News',
+
+  getVergeNews: function () {
+    // get a list of itemId's and add the top 5 to the data list
+    $.ajax({
+      url: "http://www.theverge.com/rss/frontpage",
+      dataType: 'xml',
+      crossDomain: true,
+      cache: false,
+      success: function (data) {
+        var articles = [];
+        //console.log($(data).find("entry").find("title"));
+        for (var i = 0; i <= 3; i++) {
+          articles.push({
+            title: $(data).find("entry")[i].getElementsByTagName("title")[0].firstChild.nodeValue,
+            url: $(data).find("entry")[i].getElementsByTagName("link")[0].getAttribute('href')
+          });
+        }
+        this.setState({ data: articles });
+        console.log(this.state);
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function () {
+    return { data: [] };
+  },
+  componentDidMount: function () {
+    this.getVergeNews();
+    setInterval(this.getVergeNews, 9000);
+  },
+  render: function () {
+    var articles = this.state.data.map(function (article) {
+      return React.createElement(Article, { data: article.title, url: article.url, key: article.title });
+    });
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'p',
+        null,
+        'News'
+      ),
+      articles,
+      console.log(this.state.data)
+    );
+  }
+});
+
 // Main
 ReactDOM.render(React.createElement(CurrentWeather, null), document.getElementById("current"));
 ReactDOM.render(React.createElement(DateAndTime, null), document.getElementById("date"));
+ReactDOM.render(React.createElement(News, null), document.getElementById("news"));
 
 },{"jquery":2,"moment":3,"react":160,"react-dom":4}],2:[function(require,module,exports){
 /*!
