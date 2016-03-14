@@ -224,6 +224,7 @@ var News = React.createClass({
       url: "http://www.theverge.com/rss/frontpage",
       headers: {
         "Content-Type": "text/xml",
+        "Origin": "http://theverge.com",
         "Access-Control-Allow-Origin": true
       },
       dataType: 'xml',
