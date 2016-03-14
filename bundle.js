@@ -224,7 +224,7 @@ var News = React.createClass({
       url: "http://www.theverge.com/rss/frontpage",
       headers: {
         "Origin": "http://theverge.com",
-        "Access-Control-Allow-Origin": "http://theverge.com"
+        "Access-Control-Allow-Origin": "http://bonsi.io"
       },
       dataType: 'xml',
       crossDomain: true,
