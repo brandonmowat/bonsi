@@ -1,0 +1,5 @@
+{
+	"client_id": "9bd70f56b8430f9cc7b757bb1ce29e3de13cef6ccece12477b0d91149c56cc5d",
+	"client_secret": "0c5770dcd3256dc12837e9c2c502f6dbcf21eca534e24710ef86a2662ca710d0",
+	"grant_type": "client_credentials"
+}
