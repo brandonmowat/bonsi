@@ -92,7 +92,7 @@ var CurrentTemp = React.createClass({
         <div>
           <h1 className="">{Math.round(this.props.data.currently.temperature)} <img src={this.state.data.weatherImage}/></h1>
           <h2>{this.props.data.hourly.summary}</h2>
-          <h3><i className="icon ion-umbrella"></i> {parseFloat(this.props.data.currently.precipProbability)*100}%</h3>
+          <h3><i className="icon ion-umbrella"></i> {parseFloat(this.props.data.daily.data[0].precipProbability)*100}%</h3>
         </div>
       );
     }

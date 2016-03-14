@@ -109,7 +109,7 @@ var CurrentTemp = React.createClass({
             null,
             React.createElement('i', { className: 'icon ion-umbrella' }),
             ' ',
-            parseFloat(this.props.data.currently.precipProbability) * 100,
+            parseFloat(this.props.data.daily.data[0].precipProbability) * 100,
             '%'
           )
         );
