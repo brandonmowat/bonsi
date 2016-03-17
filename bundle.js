@@ -223,7 +223,7 @@ var News = React.createClass({
     $.ajax({
       url: "http://www.theverge.com/rss/frontpage/",
       headers: {
-        "Access-Control-Allow-Origin": true
+        "Access-Control-Allow-Credentials": true
       },
       xhrFields: {
         withCredentials: true
