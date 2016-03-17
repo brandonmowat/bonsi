@@ -223,13 +223,11 @@ var News = React.createClass({
     $.ajax({
       url: "http://www.theverge.com/rss/frontpage/",
       headers: {
-        "Content-Type": "text/xml",
         "Access-Control-Allow-Origin": true
       },
       xhrFields: {
         withCredentials: true
       },
-      method: "GET",
       dataType: 'xml',
       crossDomain: true,
       cache: false,
