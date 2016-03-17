@@ -109,7 +109,7 @@ var CurrentTemp = React.createClass({
             null,
             React.createElement('i', { className: 'icon ion-umbrella' }),
             ' ',
-            parseFloat(this.props.data.currently.precipProbability) * 100,
+            parseFloat(this.props.data.daily.data[0].precipProbability) * 100,
             '%'
           )
         );
@@ -226,14 +226,17 @@ var News = React.createClass({
         "Content-Type": "text/xml",
         "Access-Control-Allow-Origin": true
       },
+      xhrFields: {
+        withCredentials: true
+      },
       method: "GET",
       dataType: 'xml',
       crossDomain: true,
       cache: false,
       success: function (data) {
         var articles = [];
-        //console.log($(data).find("entry").find("title"));
         for (var i = 0; i <= 3; i++) {
+          // Load 4 most recent stories
           articles.push({
             title: $(data).find("entry")[i].getElementsByTagName("title")[0].firstChild.nodeValue,
             url: $(data).find("entry")[i].getElementsByTagName("link")[0].getAttribute('href')
@@ -248,7 +251,7 @@ var News = React.createClass({
     });
   },
   getInitialState: function () {
-    return { data: [] };
+    return { data: [{ title: "Loading..." }] };
   },
   componentDidMount: function () {
     this.getVergeNews();
